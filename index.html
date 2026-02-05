@@ -75,7 +75,8 @@
                 playerVars: {
                     'autoplay': 0,
                     'controls': 1,
-                    'rel': 0
+                    'rel': 0,
+                    'playsinline': 1 // MODIF : Pour que ça marche sur iPhone sans passer en plein écran
                 },
                 events: {
                     'onReady': onPlayerReady
@@ -84,17 +85,20 @@
         }
 
         function onPlayerReady(event) {
-            // Le lecteur est prêt, on attend le clic
+            // Le lecteur est prêt
         }
 
         // Action au clic sur l'overlay
         document.getElementById('overlay').addEventListener('click', function() {
+            // MODIF : On lance les commandes audio IMMÉDIATEMENT au clic pour iPhone
+            if (player) {
+                player.playVideo();
+                player.unMute();
+                player.setVolume(100);
+            }
+
             this.style.display = 'none'; // Cache le bouton
             document.getElementById('player').style.display = 'block'; // Affiche la vidéo
-            
-            player.unMute();     // Active le son
-            player.setVolume(100); // Volume à 100%
-            player.playVideo();  // Lance la vidéo
         });
     </script>
 </body>
